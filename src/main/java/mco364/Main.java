@@ -6,15 +6,24 @@ import java.util.logging.Logger;
 
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
+        GameOfLife c = new GameOfLife(0);
+        c.getBoard().printBoard();
 
         clearConsole();
 
-        for (int i = 0; i < 10; i++) {
-            System.out.println(i);
+        for (int gen = 0; gen < 10; gen++) {
+            //create a boolean array with the same dimenstions as old, for next generation.
+            boolean[][] nextBoard = new boolean[c.getBoard().getBlnBoard().length][c.getBoard().getBlnBoard()[0].length];
+            for (int row = 1; row < c.getBoard().getBlnBoard().length - 1; row++) {
+                for (int col = 1; col < c.getBoard().getBlnBoard()[row].length - 1; col++) {
+                    nextBoard[row][col] = c.isAliveNextGeneration(row, col); //checks to see if it is alive next gen.
+                }
+            }
+            c.getBoard().setBoard(nextBoard); //resets the original board to next Genearation
+            c.board.printBoard(); //prints it out.
+
+            System.out.println(gen);
             sleep(1000);
             clearConsole();
         }
@@ -33,7 +42,7 @@ public class Main {
                 Runtime.getRuntime().exec("clear");
             }
         } catch (final Exception e) {
-            //  Handle any exceptions.
+//Handle any exceptions.
         }
     }
 
