@@ -36,14 +36,14 @@ public class MyThread implements Runnable {
             startIndex = threadIndex * quotient + remainder;
             endIndex = (threadIndex + 1) * quotient + remainder;
         }
-        System.out.println("Thread " + threadIndex + " will be start: " + startIndex + " and end before: " + endIndex + "\tlength: " + (endIndex - startIndex));
+//        System.out.println("Thread " + threadIndex + " will be start: " + startIndex + " and end before: " + endIndex + "\tlength: " + (endIndex - startIndex));
 
         int row, col; //turn the index of the cells into coordinates
         //will for loop between the start and end that this thread is responsible for.
         for (int i = startIndex; i < endIndex; i++) {
             row = i / nextBoard[0].length;
             col = i % nextBoard[0].length;
-            System.out.println("Working on row: " + row + " col: " + col);
+//            System.out.println("Working on row: " + row + " col: " + col);
             nextBoard[row][col] = g.isAliveNextGeneration(row, col);
         }
     }
@@ -62,11 +62,12 @@ public class MyThread implements Runnable {
 
         ArrayList<Thread> threadList = new ArrayList<>(TOTAL_NUMBER_THREADS);
         for (int i = 0; i < TOTAL_NUMBER_THREADS; i++) {
-//            Thread t = new Thread(new MyThread(i)); //based upon the index can figure the start and end
-//            threadList.add(t);
-//            pool.execute(t);
-
             pool.execute(new MyThread(i));
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MyThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         pool.shutdown();
