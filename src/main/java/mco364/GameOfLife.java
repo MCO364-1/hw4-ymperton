@@ -56,14 +56,9 @@ public class GameOfLife {
      * @return
      */
     public boolean isAliveNextGeneration(int row, int col) {
-
         int counter = neighborCount(row, col);
-//System.out.println(counter);
-        if (counter == 3 || (board.getBlnBoard()[row][col] == true) && counter == 2) {
-            return true;
-        } else {
-            return false;
-        }
+//        System.out.println("neighbor count is " + counter);
+        return (counter == 3 || (board.getBlnBoard()[row][col] == true) && counter == 2);
     }
 
     public Board getBoard() {
