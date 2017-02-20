@@ -20,12 +20,12 @@ public class MyThread implements Runnable {
         this.threadIndex = i;
     }
 
+    /**
+     * This will solve the problem we had in class, which is how to have the
+     * slots evenly distributed across the threads.
+     */
     @Override
     public void run() {
-
-//        int startIndex = threadIndex * (totalNumberOfCells / TOTAL_NUMBER_THREADS);
-//        int endIndex = threadIndex == TOTAL_NUMBER_THREADS - 1 ? totalNumberOfCells
-//                : (threadIndex + 1) * (totalNumberOfCells / TOTAL_NUMBER_THREADS);
         if (threadIndex < remainder) { //it will have an extra cell to do
             startIndex = threadIndex * (quotient + 1);
             endIndex = (threadIndex + 1) * (quotient + 1);
@@ -33,7 +33,7 @@ public class MyThread implements Runnable {
             startIndex = threadIndex * quotient + remainder;
             endIndex = (threadIndex + 1) * quotient + remainder;
         }
-        System.out.println("Thread " + threadIndex + " will be start: " + startIndex + " and end before: " + endIndex + "\tlength: " + (endIndex - startIndex));
+//        System.out.println("Thread " + threadIndex + " will be start: " + startIndex + " and end before: " + endIndex + "\tlength: " + (endIndex - startIndex));
 
         int row, col; //turn the index of the cells into coordinates
         //will for loop between the start and end that this thread is responsible for.
@@ -55,10 +55,10 @@ public class MyThread implements Runnable {
 
         MyThread.nextBoard = new boolean[g.getBoard().getBlnBoard().length][g.getBoard().getBlnBoard()[0].length];
 
-//        ScheduledThreadPoolExecutor pool = new ScheduledThreadPoolExecutor(10);
-//        pool.execute(new MyThread(1));
+//        ScheduledThreadPoolExecutor pool;
+//        pool = new ScheduledThreadPoolExecutor(10);
+//        pool.execute(new MyThread());
 //        pool.shutdown();
-        
         ArrayList<Thread> threadList = new ArrayList<>(TOTAL_NUMBER_THREADS);
         for (int i = 0; i < TOTAL_NUMBER_THREADS; i++) {
             Thread t = new Thread(new MyThread(i));
