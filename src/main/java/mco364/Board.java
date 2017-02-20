@@ -44,7 +44,6 @@ public class Board {
                     }
                 },
         PULSAR {
-
                     @Override
                     public String[] getStrBoard() {
                         return new String[]{"-----------------",
@@ -67,7 +66,6 @@ public class Board {
                     }
                 },
         PENTADECATHLON {
-
                     @Override
                     public String[] getStrBoard() {
                         return new String[]{"-----------",
