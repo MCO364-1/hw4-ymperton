@@ -1,32 +1,67 @@
 package mco364;
 
 import java.awt.Robot;
+import java.util.Scanner;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
 
     public static void main(String[] args) {
-        GameOfLife c = new GameOfLife(0);
+
+        Scanner scn = new Scanner(System.in);
+        System.out.println("Please enter a number for the corresponding Oscillator.\n"
+                + "Blinker - 0\n"
+                + "Frog - 1\n"
+                + "Beacon - 2\n"
+                + "Pulsar - 3\n"
+                + "Pentadecathlon - 4");
+        int choice = scn.nextInt(); //not worrying about validating input right now
+        GameOfLife c = new GameOfLife(choice);
         c.getBoard().printBoard();
-
+        
+        System.out.print("If you would like for the generations to appear automaticaly with .5 second intervals input 1"
+                + " and if you would like to do it yourself, input 2. ");
+        choice = scn.nextInt(); //not worrying about validating input.
         clearConsole();
+        if (choice == 1) {
+            for (int gen = 0; gen < 10; gen++) {
 
-        for (int gen = 0; gen < 10; gen++) {
-            //create a boolean array with the same dimenstions as old, for next generation.
-            boolean[][] nextBoard = new boolean[c.getBoard().getBlnBoard().length][c.getBoard().getBlnBoard()[0].length];
-            for (int row = 1; row < c.getBoard().getBlnBoard().length - 1; row++) {
-                for (int col = 1; col < c.getBoard().getBlnBoard()[row].length - 1; col++) {
-                    nextBoard[row][col] = c.isAliveNextGeneration(row, col); //checks to see if it is alive next gen.
-                }
+                //create a boolean array with the same dimenstions as old, for next generation.
+                MyThread.nextGeneration(c); //creats the thread for this board.
+                c.board.printBoard(); //prints it out.
+
+                System.out.println(gen);
+                sleep(500);
+                clearConsole();
             }
-            c.getBoard().setBoard(nextBoard); //resets the original board to next Genearation
-            c.board.printBoard(); //prints it out.
-
-            System.out.println(gen);
-            sleep(1000);
-            clearConsole();
+        } else if (choice == 2) {
+            int counter = 0;
+            System.out.println("Input 1 to get to the next generation, when finished input 0");
+            choice = scn.nextInt();
+            while (choice != 0) {
+                clearConsole();
+                MyThread.nextGeneration(c); //creats the thread for this board.
+                c.board.printBoard(); //prints it out.
+                System.out.println(counter++); //the generation
+                choice = scn.nextInt();
+            }
+            
         }
+        
+        System.out.println("\nProgtam Terminated");
+//        for (int gen = 0; gen < 10; gen++) {
+//
+//            //create a boolean array with the same dimenstions as old, for next generation.
+//            MyThread.nextGeneration(c); //creats the thread for this board.
+//            c.board.printBoard(); //prints it out.
+//
+//            System.out.println(gen);
+//            sleep(500);
+//            clearConsole();
+//        }
+
     }
 
     public final static void clearConsole() {

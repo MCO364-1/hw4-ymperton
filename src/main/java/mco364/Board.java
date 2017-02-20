@@ -2,8 +2,6 @@ package mco364;
 
 public class Board {
 
-    private static String[] strBoard;
-
     public interface BoardCreator {
 
         public String[] getStrBoard();
@@ -22,51 +20,55 @@ public class Board {
                     }
                 },
         TOAD {
+                
                     @Override
                     public String[] getStrBoard() {
                         return new String[]{"------",
                             "------",
-                            "--xxx-",
-                            "-xxx--",
+                            "--XXX-",
+                            "-XXX--",
                             "------",
                             "------"};
                     }
                 },
         BEACON {
 
+                    @Override
                     public String[] getStrBoard() {
                         return new String[]{"------",
-                            "-xx---",
-                            "-xx---",
-                            "---xx-",
-                            "---xx-",
+                            "-XX---",
+                            "-XX---",
+                            "---XX-",
+                            "---XX-",
                             "------"};
                     }
                 },
         PULSAR {
 
+                    @Override
                     public String[] getStrBoard() {
                         return new String[]{"-----------------",
                             "-----------------",
-                            "----xxx---XXX----",
+                            "----XXX---XXX----",
                             "-----------------",
                             "--X----X-X----X--",
                             "--X----X-X----X--",
                             "--X----X-X----X--",
-                            "----xxx---XXX----",
+                            "----XXX---XXX----",
                             "-----------------",
-                            "----xxx---XXX----",
+                            "----XXX---XXX----",
                             "--X----X-X----X--",
                             "--X----X-X----X--",
                             "--X----X-X----X--",
                             "-----------------",
-                            "----xxx---XXX----",
+                            "----XXX---XXX----",
                             "-----------------",
                             "-----------------"};
                     }
                 },
         PENTADECATHLON {
 
+                    @Override
                     public String[] getStrBoard() {
                         return new String[]{"-----------",
                             "-----------",
@@ -87,21 +89,14 @@ public class Board {
                             "-----------",
                             "-----------"};
                     }
-                };
-
-//        Oscillator2(String[] array) {
-//            strBoard = array;
-//        }
-        public String[] getStrBoard() {
-            return strBoard;
-        }
-
+                }
     };
 
     private boolean[][] blnBoard;
+    String[] strBoard;
 
     public Board(Oscillator o) {
-
+        strBoard = o.getStrBoard(); //it's own unique board
         createBoard();
     }
 
@@ -110,6 +105,7 @@ public class Board {
      */
     private void createBoard() {
         blnBoard = new boolean[strBoard.length][strBoard[0].length()];
+        
         for (int row = 0; row < strBoard.length; row++) {
             for (int col = 0; col < strBoard[row].length(); col++) {
                 if (strBoard[row].charAt(col) == 'X') {
@@ -120,7 +116,11 @@ public class Board {
     }
 
     public void printBoard() {
+        String horizontalLine = new String(new char[blnBoard[0].length + 2]).replace("\0", "-");
+        
+        System.out.println(horizontalLine); //top line
         for (boolean[] bs : blnBoard) {
+            System.out.print("|");
             for (boolean elt : bs) {
                 if (elt) {
                     System.out.print("X");
@@ -128,8 +128,9 @@ public class Board {
                     System.out.print(" ");
                 }
             }
-            System.out.println("");
+            System.out.println("|");
         }
+        System.out.println(horizontalLine);
     }
 
     public void setBoard(boolean[][] oldBoard) {
@@ -138,6 +139,10 @@ public class Board {
 
     public boolean[][] getBlnBoard() {
         return blnBoard;
+    }
+    
+    public String[] getStrBoard() {
+        return strBoard;
     }
 
 }
