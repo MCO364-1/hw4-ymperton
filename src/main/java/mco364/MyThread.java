@@ -55,23 +55,19 @@ public class MyThread implements Runnable {
 
         MyThread.nextBoard = new boolean[g.getBoard().getBlnBoard().length][g.getBoard().getBlnBoard()[0].length];
 
-//        ScheduledThreadPoolExecutor pool;
-//        pool = new ScheduledThreadPoolExecutor(10);
-//        pool.execute(new MyThread());
-//        pool.shutdown();
+
         ArrayList<Thread> threadList = new ArrayList<>(TOTAL_NUMBER_THREADS);
         for (int i = 0; i < TOTAL_NUMBER_THREADS; i++) {
             Thread t = new Thread(new MyThread(i));
             threadList.add(t);
-            t.start();
         }
-        for (Thread t : threadList) {
-            try {
-                t.join();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MyThread.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        
+        ScheduledThreadPoolExecutor pool;
+        pool = new ScheduledThreadPoolExecutor(10);
+        for (int i  = 0; i < TOTAL_NUMBER_THREADS; i++) {
+            pool.execute(new MyThread());
         }
+        pool.shutdown();
         //finished updating the board
         g.getBoard().setBoard(nextBoard); //resets the original board to next Genearation
     }
